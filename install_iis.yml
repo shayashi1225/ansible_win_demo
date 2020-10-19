@@ -1,0 +1,19 @@
+tasks:
+   - name: Install IIS
+     win_feature:
+       name: Web-Server
+       state: present
+       
+   - name: IISサービス起動
+     win_service:
+       name: W3Svc
+       state: started
+
+   - name: index.htmlをコピーしてWebサイト作成
+     win_copy:
+       content: "{{ iis_test_message }}"
+       dest: C:\Inetpub\wwwroot\index.html
+
+   - name: WebサイトのURLを表示
+     debug:
+       msg: "http://{{ ansible_host }}"
